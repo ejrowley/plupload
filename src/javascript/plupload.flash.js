@@ -118,7 +118,11 @@
 			flashContainer.className = 'plupload flash';
 
 			if (uploader.settings.container) {
-				container = document.getElementById(uploader.settings.container);
+			    if(uploader.settings.container instanceof HTMLElement){
+				    container = uploader.settings.container;
+				}else{
+				    container = document.getElementById(uploader.settings.container);
+                }
 				if (plupload.getStyle(container, 'position') === 'static') {
 					container.style.position = 'relative';
 				}
@@ -381,14 +385,20 @@
 				});
 
 				uploader.bind("Refresh", function(up) {
-					var browseButton, browsePos, browseSize;
+					var browseButton, browsePos, browseSize, container;
 
 					// Set file filters incase it has been changed dynamically
 					getFlashObj().setFileFilters(uploader.settings.filters, uploader.settings.multi_selection);
 
 					browseButton = document.getElementById(up.settings.browse_button);
 					if (browseButton) {
-						browsePos = plupload.getPos(browseButton, document.getElementById(up.settings.container));
+                        if(up.settings.container instanceof HTMLElement){
+                            container = up.settings.container;
+                        }else{
+                            container = document.getElementById(up.settings.container);
+                        }
+
+						browsePos = plupload.getPos(browseButton, container );
 						browseSize = plupload.getSize(browseButton);
 	
 						plupload.extend(document.getElementById(up.id + '_flash_container').style, {

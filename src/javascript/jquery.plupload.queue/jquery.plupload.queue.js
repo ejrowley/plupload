@@ -91,7 +91,7 @@
 
 				uploader = new plupload.Uploader($.extend({
 					dragdrop : true,
-					container : id
+					container : $(this)[0]
 				}, settings));
 
 				uploaders[id] = uploader;
